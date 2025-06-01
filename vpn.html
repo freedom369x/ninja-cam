@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VPN Detection</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 50px;
+        }
+        #result {
+            margin-top: 20px;
+            font-size: 24px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <h1>VPN Detection</h1>
+    <div id="result">Checking...</div>
+
+    <script>
+        async function detectVPN() {
+            try {
+                // Get user's IP address
+                const ipResponse = await fetch('https://api.ipify.org?format=json');
+                const ipData = await ipResponse.json();
+                const ip = ipData.ip;
+
+                // Get IP location data
+                const geoResponse = await fetch(`http://ip-api.com/json/${ip}`);
+                const geoData = await geoResponse.json();
+                const ipTimeZone = geoData.timezone;
+
+                // Get device's time zone
+                const deviceTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+                // Compare time zones
+                if (ipTimeZone === deviceTimeZone) {
+                    document.getElementById('result').innerText = 'You are likely not using a VPN.';
+                } else {
+                    document.getElementById('result').innerText = 'You might be using a VPN.';
+                }
+            } catch (error) {
+                document.getElementById('result').innerText = 'Error detecting VPN status.';
+            }
+        }
+
+        detectVPN();
+    </script>
+</body>
+</html>
