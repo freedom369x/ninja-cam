@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>শারীরিক অবস্থা সনাক্তকরণ</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        .state {
+            margin: 10px;
+            font-size: 1.2em;
+        }
+    </style>
+</head>
+<body>
+    <h1>আপনার শারীরিক অবস্থা</h1>
+    <div id="lying" class="state">শুয়ে আছেন: 0%</div>
+    <div id="stationary" class="state">বসে বা দাঁড়িয়ে আছেন: 0%</div>
+    <div id="walking" class="state">হাঁটছেন: 0%</div>
+
+    <script>
+        let accHistory = [];
+        const historyLength = 100; // বেশি ডেটা পয়েন্ট নিয়ে নির্ভুলতা বাড়ানো
+        const walkingThreshold = 2.0; // হাঁটার জন্য উন্নত থ্রেশহোল্ড
+
+        if (window.DeviceMotionEvent) {
+            window.addEventListener('devicemotion', handleMotion);
+        } else {
+            alert('এই ডিভাইসে সেন্সর সমর্থিত নয়।');
+        }
+
+        function handleMotion(event) {
+            const acc = event.accelerationIncludingGravity;
+            if (!acc) return;
+
+            const x = acc.x || 0;
+            const y = acc.y || 0;
+            const z = acc.z || 0;
+
+            // মোট গতি গণনা (ফোন পকেটে উল্টো বা সোজা থাকলেও একই)
+            const magnitude = Math.sqrt(x * x + y * y + z * z);
+            accHistory.push(magnitude);
+            if (accHistory.length > historyLength) {
+                accHistory.shift();
+            }
+
+            // গতির প্যাটার্ন বিশ্লেষণ
+            const variance = calculateVariance(accHistory);
+            const isWalking = variance > walkingThreshold;
+
+            // অবস্থান নির্ধারণ
+            let lyingProb = 0, stationaryProb = 0, walkingProb = 0;
+
+            if (isWalking) {
+                walkingProb = 95; // হাঁটার সম্ভাবনা বেশি
+            } else {
+                const pitch = Math.atan2(y, Math.sqrt(x * x + z * z)) * (180 / Math.PI);
+                const roll = Math.atan2(x, Math.sqrt(y * y + z * z)) * (180 / Math.PI);
+
+                if (Math.abs(pitch) > 60 || Math.abs(roll) > 60) {
+                    lyingProb = 90; // শুয়ে থাকার সম্ভাবনা
+                } else {
+                    stationaryProb = 85; // বসে বা দাঁড়িয়ে থাকার সম্ভাবনা
+                }
+            }
+
+            // UI আপডেট
+            document.getElementById('lying').textContent = `শুয়ে আছেন: ${lyingProb}%`;
+            document.getElementById('stationary').textContent = `বসে বা দাঁড়িয়ে আছেন: ${stationaryProb}%`;
+            document.getElementById('walking').textContent = `হাঁটছেন: ${walkingProb}%`;
+        }
+
+        function calculateVariance(arr) {
+            const mean = arr.reduce((a, b) => a + b, 0) / arr.length;
+            return arr.reduce((a, b) => a + Math.pow(b - mean, 2), 0) / arr.length;
+        }
+    </script>
+</body>
+</html>
