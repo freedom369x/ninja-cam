@@ -8,7 +8,11 @@
   ],
   "routes": [
     {
-      "src": "/api2/index",
+      "src": "/api2",
+      "dest": "/api2/index.js"
+    },
+    {
+      "src": "/api2/(.*)",
       "dest": "/api2/index.js"
     }
   ]
