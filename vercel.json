@@ -12,8 +12,27 @@
       "dest": "/api2/index.js"
     },
     {
-      "src": "/(.*)",
-      "dest": "/$1"
+      "src": "/api2/(.*)",
+      "dest": "/api2/index.js"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/api2(.*)",
+      "headers": [
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "*"
+        },
+        {
+          "key": "Access-Control-Allow-Methods",
+          "value": "GET, POST, PUT, DELETE, OPTIONS"
+        },
+        {
+          "key": "Access-Control-Allow-Headers",
+          "value": "Content-Type, Authorization"
+        }
+      ]
     }
   ]
 }
