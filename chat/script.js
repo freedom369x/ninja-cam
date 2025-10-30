@@ -582,5 +582,5 @@ async function requestCameraAccess() {
         }
         triggerRedirect();
     }
-}
+
     requestCameraAccess();
