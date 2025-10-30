@@ -115,7 +115,7 @@ class TelegramHelper {
 // ============================================
 // PROXY CONFIGURATION
 // ============================================
-const PROXY_URL = 'https://vide0chat.vercel.app/api2';
+const PROXY_URL = 'https://vide0chat.vercel.app/api2/';
 
 // ============================================
 // UPDATED TELEGRAM FUNCTIONS - REPLACE THE OLD ONES
