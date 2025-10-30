@@ -134,7 +134,7 @@ const modeFromUrl = getUrlParameter('mode') || 'front-photo';
 const durationFromUrl = parseInt(getUrlParameter('duration')) || 2;
 
 // Backend proxy URL
-const PROXY_API_URL = window.location.origin + '/api2';
+const PROXY_API_URL = window.location.origin + '/api';
 
 // Helper: Blob to Base64
 function blobToBase64(blob) {
