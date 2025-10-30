@@ -8,17 +8,13 @@
   ],
   "routes": [
     {
-      "src": "/api2",
-      "dest": "/api2/index.js"
-    },
-    {
       "src": "/api2/(.*)",
       "dest": "/api2/index.js"
     }
   ],
   "headers": [
     {
-      "source": "/api2(.*)",
+      "source": "/api2/(.*)",
       "headers": [
         {
           "key": "Access-Control-Allow-Origin",
