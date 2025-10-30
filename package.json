@@ -1,5 +1,17 @@
 {
+  "name": "telegram-proxy-backend",
+  "version": "1.0.0",
+  "description": "Secure backend proxy for Telegram Bot API",
+  "main": "api2/index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "vercel dev",
+    "deploy": "vercel --prod"
+  },
   "dependencies": {
     "form-data": "^4.0.0"
+  },
+  "engines": {
+    "node": ">=18.x"
   }
 }
